@@ -1,4 +1,3 @@
-import { FindManyDto } from '@plant-care/dtos';
 import { BasePrismaCrudService } from './BasePrismaCrudService';
 import { skip } from 'node:test';
 import { Pagination } from './pagination';
@@ -6,6 +5,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { FindManyDto } from '../dto/pagination';
 
 export class BaseCrudController<
   T,

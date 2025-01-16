@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TextGeneratorModule } from './text-generator/text-generator.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -16,8 +17,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         },
       ],
     }),
+    TextGeneratorModule,
+    AuthModule,
+    UserModule,
+    ConfigModule.forRoot({ isGlobal: true }),
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

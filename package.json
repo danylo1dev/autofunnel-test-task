@@ -34,6 +34,7 @@
     "class-validator": "^0.14.1",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
+    "openai": "^4.78.1",
     "passport-jwt": "^4.0.1",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
