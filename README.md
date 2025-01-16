@@ -3,8 +3,8 @@
 1. **Clone the repository:**
 
    ```bash
-   git clone
-   cd
+   git clone https://github.com/danylo1dev/autofunnel-test-task.git
+   cd autofunnel-test-task
    ```
 
 2. **Install dependencies:**
