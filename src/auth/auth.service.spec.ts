@@ -89,53 +89,7 @@ describe('AuthService', () => {
     });
   });
 
-  // describe('updateRefreshToken', () => {
-  //   it('should update the user refresh token', async () => {
-  //     const hashedRefreshToken = await argon2.hash('new_refresh_token');
-  //     mockUserService.update.mockResolvedValue({
-  //       ...mockUser,
-  //       refreshToken: hashedRefreshToken,
-  //     });
-  //     await authService.updateRefreshToken(mockUser.id, 'new_refresh_token');
-  //     expect(mockUserService.update).toHaveBeenCalledWith({
-  //       where: { id: mockUser.id },
-  //       data: {
-  //         refreshToken: hashedRefreshToken,
-  //       },
-  //     });
-  //   });
-  // });
-
   describe('signup', () => {
-    // it('should create a new user and return tokens', async () => {
-    //   const registerDto: Auth.RegisterBody = {
-    //     email: 'newuser@example.com',
-    //     password: 'new_password',
-    //   };
-    //   const hashedPassword = await argon2.hash(registerDto.password);
-    //   mockUserService.findByEmail.mockResolvedValue(null);
-    //   mockUserService.create.mockResolvedValue({
-    //     ...mockUser,
-    //     email: registerDto.email,
-    //     password: hashedPassword,
-    //   });
-    //   mockJwtService.signAsync
-    //     .mockResolvedValueOnce(mockTokens.access_token)
-    //     .mockResolvedValueOnce(mockTokens.refresh_token);
-
-    //   const tokens = await authService.signup(registerDto);
-
-    //   expect(tokens).toEqual(mockTokens);
-    //   expect(mockUserService.create).toHaveBeenCalledWith({
-    //     email: registerDto.email,
-    //     password: hashedPassword,
-    //   });
-    //   expect(mockUserService.update).toHaveBeenCalledWith({
-    //     where: { id: mockUser.id },
-    //     data: { refreshToken: expect.any(String) }, // Check that refreshToken is updated
-    //   });
-    // });
-
     it('should throw an error if the email is taken', async () => {
       mockUserService.findByEmail.mockResolvedValue(mockUser);
       await expect(

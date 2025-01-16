@@ -1,14 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { OpenaiService } from 'src/openai/openai.service';
 import { TextGenerator } from './types';
-import OpenAI from 'openai';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class TextGeneratorService {
   constructor(private openaiService: OpenaiService) {}
   async generateText(prompt: string): Promise<TextGenerator.Response> {
-    const completion = await this.openaiService.openai.chat.completions.create({
+    const completion = await this.openaiService.createText({
       model: 'gpt-4o-mini',
       messages: [
         {
