@@ -1,6 +1,8 @@
 import {
   CanActivate,
   ExecutionContext,
+  forwardRef,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -10,6 +12,7 @@ import { AuthGuard } from '@nestjs/passport';
 @Injectable()
 export class AccessTokenGuard extends AuthGuard('jwt') implements CanActivate {
   constructor(
+    @Inject(forwardRef(() => JwtService))
     private jwtService: JwtService,
     private configService: ConfigService,
   ) {
@@ -25,8 +28,6 @@ export class AccessTokenGuard extends AuthGuard('jwt') implements CanActivate {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
       });
-      // 💡 We're assigning the payload to the request object here
-      // so that we can access it in our route handlers
       request['user'] = payload;
     } catch (err) {
       console.log(err);

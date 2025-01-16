@@ -51,6 +51,7 @@ export class UserDto implements User {
   @ApiProperty({
     description: 'Password of the user',
     writeOnly: true,
+    example: 'P@ssword123',
     type: String,
   })
   @IsStrongPassword({

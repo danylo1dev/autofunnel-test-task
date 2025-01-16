@@ -4,9 +4,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TextGeneratorModule } from './text-generator/text-generator.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
+import { JwtModule } from '@nestjs/jwt';
+import { OpenaiModule } from './openai/openai.module';
 
 @Module({
   imports: [
+    JwtModule.register({}),
+    ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -17,10 +21,10 @@ import { UserModule } from './user/user.module';
         },
       ],
     }),
-    TextGeneratorModule,
     AuthModule,
+    OpenaiModule,
+    TextGeneratorModule,
     UserModule,
-    ConfigModule.forRoot({ isGlobal: true }),
   ],
 })
 export class AppModule {}
