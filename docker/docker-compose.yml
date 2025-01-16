@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: root
+      POSTGRES_DB: autofunnel
+    ports:
+      - 5432:5432
+    # volumes:
+    #   - './data/pgdata:/var/lib/postgresql/data'
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
