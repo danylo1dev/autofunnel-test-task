@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
-import { ThrottlerModule } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TextGeneratorModule } from './text-generator/text-generator.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { OpenaiModule } from './openai/openai.module';
+import { CustomThrottlerGuard } from './shared/guards/custom-throttler.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -16,7 +18,7 @@ import { OpenaiModule } from './openai/openai.module';
       inject: [ConfigService],
       useFactory: (config: ConfigService) => [
         {
-          ttl: config.get('THROTTLE_TTL'),
+          ttl: config.get('THROTTLE_TTL') * 1000,
           limit: config.get('THROTTLE_LIMIT'),
         },
       ],

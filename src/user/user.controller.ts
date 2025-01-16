@@ -13,6 +13,8 @@ import { AuthUser } from 'src/auth/decorators/user.decorator';
 import { AccessTokenGuard } from 'src/auth/guards/access-token.guard';
 import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
+import { CustomThrottlerGuard } from 'src/shared/guards/custom-throttler.guard';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('user')
 @ApiTags('User')
@@ -20,7 +22,6 @@ import { UserService } from './user.service';
 @ApiBearerAuth()
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
   @UseGuards(AccessTokenGuard)
   @Get('me')
   @HttpCode(HttpStatus.OK)

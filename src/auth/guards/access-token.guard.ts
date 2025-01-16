@@ -9,6 +9,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { AuthGuard } from '@nestjs/passport';
+import { extractTokenFromHeader } from 'src/shared/extract-token-from-header';
 @Injectable()
 export class AccessTokenGuard extends AuthGuard('jwt') implements CanActivate {
   constructor(
@@ -20,7 +21,7 @@ export class AccessTokenGuard extends AuthGuard('jwt') implements CanActivate {
   }
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = this.extractTokenFromHeader(request);
+    const token = extractTokenFromHeader(request);
     if (!token) {
       throw new UnauthorizedException();
     }
@@ -34,10 +35,5 @@ export class AccessTokenGuard extends AuthGuard('jwt') implements CanActivate {
       throw new UnauthorizedException();
     }
     return true;
-  }
-
-  private extractTokenFromHeader(request: any): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
   }
 }

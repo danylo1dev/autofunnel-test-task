@@ -75,8 +75,7 @@ export class AuthService {
     const user = await this.usersService.findByEmail(body.email);
     if (!user) throw new BadRequestException('User does not exist');
     const passwordMatches = await argon2.verify(user.password, body.password);
-    if (!passwordMatches)
-      throw new BadRequestException('Password is incorrect');
+    if (!passwordMatches) throw new BadRequestException('Data is incorrect');
     const tokens = await this.getTokens(user.id, user.email);
     await this.updateRefreshToken(user.id, tokens.refresh_token);
     return tokens;

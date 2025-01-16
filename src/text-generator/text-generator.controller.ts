@@ -1,30 +1,29 @@
 import {
-  BadGatewayException,
   Body,
   ClassSerializerInterceptor,
   Controller,
   HttpCode,
   HttpStatus,
-  InternalServerErrorException,
   Post,
   SerializeOptions,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { TextGeneratorService } from './text-generator.service';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AccessTokenGuard } from 'src/auth/guards/access-token.guard';
-import { ApiBearerAuth, ApiResponse, ApiTags, OmitType } from '@nestjs/swagger';
 import { TextGeneratorBodyDto, TextGeneratorResponseBodyDto } from './dto';
-import { InternalServerError, OpenAIError } from 'openai';
+import { TextGeneratorService } from './text-generator.service';
+import { Throttle } from '@nestjs/throttler';
+import { CustomThrottlerGuard } from 'src/shared/guards/custom-throttler.guard';
 
-@Controller('text-generator')
+@Controller('')
 @ApiTags('Text generator')
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiBearerAuth()
 export class TextGeneratorController {
   constructor(private readonly textGeneratorService: TextGeneratorService) {}
-  @UseGuards(AccessTokenGuard)
-  @Post('/generate')
+  @UseGuards(AccessTokenGuard, CustomThrottlerGuard)
+  @Post('/generate-text')
   @HttpCode(HttpStatus.OK)
   @SerializeOptions({
     type: TextGeneratorBodyDto,
@@ -36,13 +35,6 @@ export class TextGeneratorController {
   async generate(
     @Body() body: TextGeneratorBodyDto,
   ): Promise<TextGeneratorResponseBodyDto> {
-    try {
-      return await this.textGeneratorService.generateText(body.promt);
-    } catch (err) {
-      if (err instanceof OpenAIError) {
-        throw new BadGatewayException(err);
-      }
-      throw new InternalServerErrorException(err);
-    }
+    return await this.textGeneratorService.generateText(body.promt);
   }
 }

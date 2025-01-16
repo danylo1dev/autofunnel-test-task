@@ -6,6 +6,9 @@ import { UserController } from './user.controller';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from 'src/auth/auth.module';
+import { CustomThrottlerGuard } from 'src/shared/guards/custom-throttler.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 
 @Module({
   providers: [
